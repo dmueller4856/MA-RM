@@ -1,0 +1,35 @@
+<script type="text/javascript">
+function getWinOpener() {
+  var vWinOpener = window.opener;
+  return vWinOpener;
+};
+
+var vWinOpener = getWinOpener() || {};
+var vWinOpenerDefined = false;
+var vOutFileDefined = false;
+var vFileName = "";
+var vContent = "<!DOCTYPE html><html><body>No Output File defined</body><html>";
+// vWinOpener is the Window of JavascriptClassGenerator
+try {
+  vJSCC_DB = vWinOpener.vJSCC_DB;
+  vWinOpenerDefined = true;
+
+  //---get Filename for Output--------
+  vFileName = vWinOpener.getValueDOM("sFileList") || "";
+  console.log("Emulator File '"+vFileName+"'");
+  if (vFileName != "") {
+    //---set Export File----------------
+    console.log("Filename '"+vFileName+"' opened in emulator '"+document.location.href+"'");
+  } else {
+    console.log("vFileName for Output undefined");
+  };
+  //---Get HTML Content for Output----
+  vContent = vWinOpener.getEditorValue("iMainHTML");
+  //alert(vContent);
+} catch(err) {
+    console.log(err.message);
+    vWinOpenerDefined = false;
+};
+  //document.write("<!DOCTYPE html><html><body>My Text</body><html>");
+  document.write(vContent)
+</script>

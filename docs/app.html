@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <meta charset="utf-8"/>
+      <title>App LSAC</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+      <meta name="apple-mobile-web-app-capable" content="yes">
+      <link type="text/css" href="css/jquery.mobile-1.2.0.min.css" rel="stylesheet" />
+      <link  type="text/css" href="css/ios_inspired.css" rel="stylesheet" />
+      <link  type="text/css" href="css/font-awesome.min.css" rel="stylesheet" />
+      <script src="js/jquery-1.7.1.min.js"></script>
+
+      <script>
+        // vDataJSON contains all loaded Databases as JSON file
+        var vDataJSON = {};
+        //------------BEGIN iOS-Inspired------------
+         // all dialog buttons should close their parent dialog
+         $(".ui-dialog button").live("click", function() {
+           $("[data-role='dialog']").dialog("close");
+          });
+          $(document).on("mobileinit", function(){
+             $.mobile.defaultPageTransition = "slide";
+           });
+         //--------------END iOS-Inspired------------
+      </script>
+      <!-- JSON Databases -->
+      <script type="text/javascript" src="db/ovitrapmpi_data.js"></script>
+      <script type="text/javascript" src="schema/ovitrapmpi_schema.js"></script>
+
+      <!-- Global JavaScript Libraries for ALL files -->
+      <script type="text/javascript" src="js/arrayhash.js"></script>
+      <script type="text/javascript" src="js/filesaver.js"></script>
+      <script type="text/javascript" src="js/iframe.js"></script>
+      <script type="text/javascript" src="js/localstorage.js"></script>
+      <script type="text/javascript" src="js/linkparam.js"></script>
+      <script type="text/javascript" src="js/lodash.js"></script>
+      <script type="text/javascript" src="js/openwin.js"></script>
+      <script type="text/javascript" src="js/jsoneditor.js"></script>
+      <script type="text/javascript" src="js/predbedit.js"></script>
+      <script type="text/javascript" src="js/string.js"></script>
+      <script type="text/javascript" src="js/syncjsoneditor.js"></script>
+      <script type="text/javascript" src="js/writedom.js"></script>
+
+      <!-- Classes Javascript-Libs -->
+      <script type="text/javascript" src="js/linkparam.js"></script>
+      <script type="text/javascript" src="js/wrapjson.js"></script>
+      <script type="text/javascript" src="js/databasejson.js"></script>
+      <script type="text/javascript" src="js/extrapolator.js"></script>
+      <script type="text/javascript" src="js/data4graph.js"></script>
+      <script type="text/javascript" src="js/databaselist.js"></script>
+      <script type="text/javascript" src="js/appabstract.js"></script>
+      <script type="text/javascript" src="js/server.js"></script>
+      <script type="text/javascript" src="js/fuzzycontroller.js"></script>
+      <script type="text/javascript" src="js/app.js"></script>
+      <script type="text/javascript" src="js/domvar.js"></script>
+      <script type="text/javascript" src="js/domvarlist.js"></script>
+      <script type="text/javascript" src="js/checkboxlist.js"></script>
+      <script type="text/javascript" src="js/fuzzylayer.js"></script>
+      <script type="text/javascript" src="js/parserhtml.js"></script>
+      <script type="text/javascript" src="js/database.js"></script>
+      <script type="text/javascript" src="js/editor4json.js"></script>
+      <script type="text/javascript" src="js/aeditor.js"></script>
+      <script type="text/javascript" src="js/size.js"></script>
+
+      <!-- JavaScript Libraries for 'app.html' -->
+      <script type="text/javascript" src="js/qrcode.js"></script>
+      <script type="text/javascript" src="js/geolocation.js"></script>
+
+
+      <script>
+         //-----INIT DisApp -----
+          var vDebug = 0;
+          var vApp = new App();
+       </script>
+       <script src="js/jquery.mobile-1.2.0.min.js"></script>
+       <link href="css/ios_post.css" rel="stylesheet" />
+       <link href="css/app.css" rel="stylesheet" />
+       <link href="css/css/font-awesome.min.css" rel="stylesheet" />
+     </head>
+    <body>
+
+<!--
+=============================================
+         BEGIN OF PAGES
+=============================================
+-->
+
+     <!-- Page: welcome     Page Type: DefaultPage -->
+     <div data-role="page" id="welcome">
+         <div data-role="header" data-position="fixed">
+                  <!-- header button: 'Home' link to page 'home' -->
+       <a href="#" id="bHOME1" onclick="$.mobile.changePage( '#home', { transition: 'slideup', changeHash: false });return false" data-theme="a">Home</a>
+
+            <h1>Welcome</h1>
+
+       </div>
+         <!-- /header -->
+       <div data-role="content">
+         <h2>Welcome</h2>
+         <h3>Introduction</h3>
+         DisApp-Tool is a WebApp that needs no Server Connection and runs in browser. DisApp-Tool has mapping capabilities and visualizes demo data in graphs.
+
+         <h3>Used Packages</h3>
+         DisApp-Tool uses
+         <ul>
+           <li>
+             <a href="http://morrisjs.github.io/morris.js/" target="_blank">MorrisJS</a>
+          </li>
+          <li>
+            <a href="https://openlayers.org/" target="_blank">OpenLayers</a> for visualisation of data.
+          </li>
+          <li>
+            <a href="https://niebert.github.io/JavascriptClassCreator" target="_blank">JavascriptClassCreator</a>
+          </li>
+        </ul>
+         for visualisation of data.
+       </div>
+    <!-- /page ID: welcome -->
+    </div>
+     <!-- Page: home     Page Type: MenuPage -->
+     <div data-role="page" id="home">
+         <div data-role="header" data-position="fixed">
+                  <!-- header button: 'Welcome' link to page 'welcome' -->
+       <a href="#" id="bWELCOME2" onclick="$.mobile.changePage( '#welcome', { transition: 'slideup', changeHash: false });return false" data-theme="a">Welcome</a>
+
+            <h1>Home</h1>
+                  <!-- header button: 'Quit' -->
+       <a href="#" id="bQUIT1" onclick="if (confirm('Do you want to quit!')) window.close();" data-theme="c">Quit</a>
+       </div>
+         <!-- /header -->
+        <!-- Page: home  -->
+       <div data-role="content">
+          <h1>DisApp Tool</h1>
+             <ul data-role="listview" data-inset="true">
+               <li><a href="#welcome">Welcome</a></li>
+               <li><a href="#load">Load JSON</a></li>
+               <li><a href="#save">Save JSON</a></li>
+               <li><a href="#data">Data</a></li>
+               <li><a href="#analysis">Analysis</a></li>
+               <li><a href="#setting">Settings</a></li>
+               <li><a href="#quit">Quit</a></li>
+              </ul>
+        </div>
+       <!-- /page ID: home -->
+     </div>
+     <!-- Page: setting     Page Type: ConfirmPage -->
+     <div data-role="page" id="setting">
+         <div data-role="header" data-position="fixed">
+                  <!-- header button: 'OK' -->
+                  <!--
+                  <a href="#" id="bOK1" onclick="vApp.event('setting','OK','event1')" data-theme="a">OK</a>
+                  <a href="#" class="bCANCEL" id="bCANCEL1" onclick="vApp.event('setting','CANCEL','1');return false" data-theme="a">Cancel</a>
+                  -->
+                  <a href="#" id="bHOME2" onclick="$.mobile.changePage( '#home', { transition: 'slideup', changeHash: false });return false" data-theme="a">Home</a>
+                  <h1>Settings</h1>
+                  <!-- header button: 'Cancel' -->
+         </div>
+         <!-- /header -->
+         <div data-role="content">
+            <h2>Settings</h2>
+            <div data-role="fieldcontain">
+                  <!--
+                  <label>Range Inputs:</label>
+                  <br /><br />
+
+                  <input type="range" id="setting_range"/>
+                  -->
+                  <label>Extrapolator Map Key:</label>
+                  <br /><br />
+
+                  <input type="search"  id="extrapolateKey" value="trapNumber" onchange="vApp.aExtrapolator.setKey(this.value)"/>
+
+                  <hr /><br />
+                  <label>Extrapolator Missing Key:</label>
+                  <br /><br />
+
+                  <input type="text" id="missingID" value="geoLocation"  onchange="vApp.aExtrapolator.setMissingID(this.value)"/>
+                  <br /><br />
+
+                  <label>Extrapolator Equivalent to Missing:</label>
+                  <br /><br />
+
+                  <input type="search" id="equi2missing1" value="0.0,0.0"  onchange="vApp.aExtrapolator.setEqui2Missing(this.id,this.value)"/>
+                  <br />
+                  <input type="search" id="equi2missing2" value="N/A"  onchange="vApp.aExtrapolator.setEqui2Missing(this.id,this.value)"/>
+                  <br />
+                  <input type="search" id="equi2missing3" value="null"  onchange="vApp.aExtrapolator.setEqui2Missing(this.id,this.value)"/>
+                  <br />
+            </div>
+
+        </div>
+    <!-- /page ID: setting -->
+    </div>
+     <!-- Page: editdata     Page Type: ConfirmPage -->
+     <div data-role="page" id="load">
+         <div data-role="header" data-position="fixed">
+           <!-- header button: 'OK' -->
+           <!--
+           <a href="#" id="bOK2" onclick="vApp.event('load','OK','eventLoadJSON')" data-theme="a">OK</a>
+            -->
+           <a href="#" id="bHOME3" onclick="$.mobile.changePage( '#home', { transition: 'slideup', changeHash: false });return false" data-theme="a">Home</a>
+           <h1>Load JSON</h1>
+           <!-- header button: 'Cancel' -->
+           <!--
+           <a href="#" class="bCANCEL" id="bCANCEL2" onclick="vApp.event('load','CANCEL','2');return false" data-theme="a">Cancel</a>
+           -->
+           <a href="#" class="bCANCEL" id="bCANCEL2" onclick="$.mobile.changePage( '#analysis', { transition: 'slideup', changeHash: false });return false"  data-theme="a">Cancel</a>
+         </div>
+         <!-- /header -->
+       <div data-role="content">
+          <h2>Load JSON</h2>
+          <h3>Select new JSON File</h3>
+          <div data-role="fieldcontain">
+            <input type="file" name="fileJSON" value="Select JSON File" id="fileJSON" />
+          </div>
+          <table style="background:white" width="100%" cellpadding="10px">
+            <tr>
+              <td>
+                Select a new JSON file from your device and press the <b>Import JSON</b>-Button.
+              </td>
+            </tr>
+          </table>
+          <button id="bImportJSON" onclick="vApp.aExtrapolator.importJSON('fileJSON');return false">
+            <i class="fa fa-external-link"></i> Import JSON
+          </button>
+
+          <hr>
+          <h3>Edit current JSON File</h3>
+          Press Edit Button to check current JSON file with data. <br>
+
+          <button id="bEditFileListJSON" onclick="$.mobile.changePage( '#editdata', { transition: 'slideup', changeHash: false });return false">
+            <i class="fa fa-pencil"></i> Edit JSON Data
+          </button>
+       </div>
+    <!-- /page ID: editdata -->
+    </div>
+     <!-- Page: save     Page Type: SaveDialog -->
+     <div data-role="page" id="save">
+         <div data-role="header" data-position="fixed">
+                  <!-- header button: 'Home' link to page 'home' -->
+                  <a href="#" id="bHOME3" onclick="$.mobile.changePage( '#home', { transition: 'slideup', changeHash: false });return false" data-theme="a">Home</a>
+                  <h1>Save JSON</h1>
+                  <!-- header button: 'Cancel' -->
+                  <a href="#" class="bCANCEL" id="bCANCEL3" onclick="vApp.event('save','CANCEL','3');return false" data-theme="a">Cancel</a>
+        </div>
+         <!-- /header -->
+         <div data-role="content">
+           <h2>Save JSON</h2>
+           <table style="background:white" width="100%" cellpadding="10px">
+             <tr>
+               <td>
+                 If you extrapolated or edited the JSON data, you can save the current JSON data to your device.
+               </td>
+             </tr>
+           </table>
+           <button id="bSaveJSON" onclick="vApp.aExtrapolator.saveJSON('ovitrapmpi.json');return false">
+             <i class="fa fa-download"></i> Save JSON
+           </button>
+        </div>
+    <!-- /page ID: save -->
+    </div>
+     <!-- Page: analysis     Page Type: MenuPage -->
+     <div data-role="page" id="analysis">
+         <div data-role="header" data-position="fixed">
+                  <!-- header button: 'Home' link to page 'home' -->
+                  <a href="#" id="bHOME4" onclick="$.mobile.changePage( '#home', { transition: 'slideup', changeHash: false });return false" data-theme="a">Home</a>
+                  <h1>Analysis</h1>
+       </div>
+         <!-- /header -->
+       <div data-role="content">
+          <h2>Analysis of Data</h2>
+          <ul data-role="listview" data-inset="true">
+            <li><a href="#timeseries">Temporal Analysis</a></li>
+	          <li><a href="#heatmap">Heatmap</a></li>
+          </ul>
+      </div>
+    <!-- /page ID: analysis -->
+    </div>
+     <!-- Page: heatmap     Page Type: ConfirmPage -->
+     <div data-role="page" id="heatmap">
+         <div data-role="header" data-position="fixed">
+                  <!-- header button: 'OK' -->
+                  <!--
+                  <a href="#" id="bOK3" onclick="vApp.event('heatmap','OK','event3')" data-theme="a">OK</a>
+                  -->
+                <a href="#" id="bANALYIS1" onclick="$.mobile.changePage( '#analysis', { transition: 'slideup', changeHash: false });return false" data-theme="a">Analysis</a>
+                <h1>Heatmap</h1>
+                  <!-- header button: 'Cancel' -->
+                  <!--
+                  <a href="#" class="bCANCEL" id="bCANCEL4" onclick="vApp.event('heatmap','CANCEL','4');return false" data-theme="a">Cancel</a>
+                  -->
+                  <a href="#" class="bCANCEL" id="bCANCEL4" onclick="$.mobile.changePage( '#analysis', { transition: 'slideup', changeHash: false });return false" data-theme="a">Home</a>
+
+         </div>
+         <!-- /header -->
+         <div data-role="content">
+            <h2>Heatmap</h2>
+            The HeatMap is generated with OpenLayers for the Browser Version.
+            <button id="bOpenMorrisJS" onclick="  openWinHTMLsize('heatmap.html',1000,600);return false">
+              <i class="fa fa-line-chart"></i> Show HeatMap
+            </button>
+
+        </div>
+    <!-- /page ID: heatmap -->
+    </div>
+     <!-- Page: timeseries     Page Type: ConfirmPage -->
+     <div data-role="page" id="timeseries">
+         <div data-role="header" data-position="fixed">
+                  <!-- header button: 'OK' -->
+                  <!--
+                  <a href="#" id="bOK4" onclick="vApp.event('timeseries','OK','event4')" data-theme="a">OK</a>
+                  -->
+                  <a href="#" id="bANALYIS1" onclick="$.mobile.changePage( '#analysis', { transition: 'slideup', changeHash: false });return false" data-theme="a">Analysis</a>
+                  <h1>Time Series</h1>
+                  <!-- header button: 'Cancel' -->
+                  <a href="#" class="bCANCEL" id="bCANCEL5" onclick="vApp.event('timeseries','CANCEL','5');return false" data-theme="a">Cancel</a>
+       </div>
+         <!-- /header -->
+       <div data-role="content">
+         <h2>Temporal Analysis</h2>
+         <h3>for OviTrap and MPI</h3>
+         The ovitrap egg count and the Mosquito Perception Index are visulised in one graph.
+         MPI is the Mosquito Perception Index MPI
+         <select id="sGraphSelect" onchange="vApp.aData4Graph.setGraphOutput(this.value)">
+           <option value="OviTrapMPI">OviTrap and MPI</option>
+           <option value="OviTrap">OviTrap</option>
+           <option value="OviTrapRaw">OviTrap raw data</option>
+           <option value="MPI">MPI</option>
+           <option value="OviTrapRaw">MPI raw data</option>
+          </select>
+         <button id="bOpenMorrisJS" onclick="openWinMorrisJS('ovitrapmpi');return false">
+           <i class="fa fa-line-chart"></i> Show Graph
+         </button>
+
+      </div>
+    <!-- /page ID: timeseries -->
+    </div>
+     <!-- Page: data     Page Type: MenuPage -->
+     <div data-role="page" id="data">
+         <div data-role="header" data-position="fixed">
+                  <!-- header button: 'Home' link to page 'home' -->
+                  <a href="#" id="bHOME5" onclick="$.mobile.changePage( '#home', { transition: 'slideup', changeHash: false });return false" data-theme="a">Home</a>
+                  <h1>Data</h1>
+        </div>
+         <!-- /header -->
+         <div data-role="content">
+            <h2>Data Manipulation</h2>
+             <ul data-role="listview" data-inset="true">
+                <li><a href="#editdata">Edit Data</a></li>
+                <li><a href="#extrapolation">Extrapolate GeoLocation</a></li>
+             </ul>
+       </div>
+    <!-- /page ID: data -->
+    </div>
+     <!-- Page: extrapolation     Page Type: DefaultPage -->
+     <div data-role="page" id="extrapolation">
+         <div data-role="header" data-position="fixed">
+                  <!-- header button: 'Data' link to page 'data' -->
+                  <a href="#" id="bDATA1" onclick="$.mobile.changePage( '#data', { transition: 'slideup', changeHash: false });return false" data-theme="a">Data</a>
+                  <h1>GeoLocation</h1>
+                  <a href="#" id="bCANCEL6" onclick="$.mobile.changePage( '#home', { transition: 'slideup', changeHash: false });return false" data-theme="a">Cancel</a>
+         </div>
+         <!-- /header -->
+         <div data-role="content">
+           <h3>Extrapolation Geo Location
+             <a id="bExtrapolateInfo" href="#" onclick="$('#extrapolate_info').toggle();return false">
+               <i class="fa fa-info-circle"></i>
+            </a>
+           </h3>
+           <div id="extrapolate_info" style="display:none">
+             OviTrap with a certain unique trapNumber are not moved to different geolocation.
+             GPS location is not always available on a mobile device.
+             Users Location for OviTraps can be extrapolated for specific OviTrap IDs
+             if at least one GPS location can be determined in all records in the database.
+             <hr>
+           </div>
+            <h4>Scan OviTrap Geolocation</h4>
+            Scan the OviTrap geolocations first for all users.
+            <button id="bScanOviTrapGeoLoc" onclick="vApp.aExtrapolator.scan();$('#extrapolate_interface').show();return false" data-theme="c">
+              <i class="fa fa-search"></i> Scan JSON
+            </button>
+            <div id="extrapolate_interface" style="display:none">
+              <h4>Extrapolate Missing OviTrap Geolocation</h4>
+              The scanned  OviTrap geolocations are used for imputation of missing Geolocations.
+              <button id="bExtrapolateOviTrapGeoLoc" onclick="vApp.aExtrapolator.extrapolate();$('#divSaveExtrapolatedJSON').show();return false" data-theme="c">
+                <i class="fa fa-cogs"></i> Extrapolate GeoLoc
+              </button>
+              <button id="bDownloadErrors" onclick="vApp.aExtrapolator.downloadErrors();return false" data-theme="c">
+                <i class="fa fa-download"></i> Download Errors
+              </button>
+            </div>
+            <div id="divSaveExtrapolatedJSON" style="display:none">
+              <button id="bSaveExtrapolatedJSON" onclick="vApp.gotoPage('save');return false" data-theme="c">
+                <i class="fa fa-floppy-o"></i> Save JSON
+              </button>
+            </div>
+        </div>
+    <!-- /page ID: extrapolation -->
+    </div>
+     <!-- Page: editdata     Page Type: DefaultPage -->
+     <div data-role="page" id="editdata">
+         <div data-role="header" data-position="fixed">
+                  <!-- header button: 'Home' link to page 'home' -->
+                  <a href="#" id="bDATA1" onclick="$.mobile.changePage( '#data', { transition: 'slideup', changeHash: false });return false" data-theme="a">Data</a>
+                  <h1>Edit Data</h1>
+                  <a href="#" id="bCANCEL7" onclick="$.mobile.changePage( '#home', { transition: 'slideup', changeHash: false });return false" data-theme="a">Cancel</a>
+        </div>
+         <!-- /header -->
+        <div data-role="content">
+          <h2>Edit Data</h2>
+          The current data was exported and cleaned by Dr. Ajit N. Babu CAGH. Press Pencil button to edit the data.
+          <ul  id="ulResponseDB" data-role='listview' data-inset='true'>
+
+              <li>
+                <div id="vNavQuestRESPONSE" >
+                  <table width="100%">
+                    <tr  align="center">
+                      <td id="footerRESPONSEprev">
+                        <button id="bPreviousRESPONSE" onclick="vApp.aDatabaseList.prevRecord();return false" data-theme="c">&lt;&lt;</button>
+                      </td>
+                      <td id="footerRESPONSEcount">
+                        [1]
+                      </td>
+                      <td id="footerRESPONSEnext">
+                        <button id="bNextRESPONSE" onclick="vApp.aDatabaseList.nextRecord();return false" data-theme="c">&gt;&gt;</button>
+                      </td>
+                    </tr>
+                    <tr  align="center">
+                      <td id="footerRESPONSEheader" colspan="3">
+                        Database Record
+                      </td>
+                    </tr>
+
+                  </table>
+                </div>
+             </li>
+              <li>
+                <button id="bEditFileListJSON" onclick="openWinEditorJSON('ovitrapmpi');return false">
+                  <i class="fa fa-pencil"></i> Edit
+                </button>
+              </li>
+           </ul>
+       </div>
+    <!-- /page ID: editdata -->
+    </div>
+     <!-- Page: quit     Page Type: DefaultPage -->
+     <div data-role="page" id="quit">
+         <div data-role="header" data-position="fixed">
+                  <!-- header button: 'Home' link to page 'home' -->
+       <a href="#" id="bHOME8" onclick="$.mobile.changePage( '#home', { transition: 'slideup', changeHash: false });return false" data-theme="a">Home</a>
+
+            <h1>Quit</h1>
+
+       </div>
+         <!-- /header -->
+       <div data-role="content">
+         Content of Quit (ID:'quit')
+       </div>
+    <!-- /page ID: quit -->
+    </div>
+
+
+
+<!--
+=============================================
+     END OF PAGES / BEGIN iFRAME JSCALL
+=============================================
+ -->
+    <div id="divJSCALL"></div>
+    <div id="iFrameContainer" style="display:none">
+      <iframe id="iLoader" src="loader/setonline.html" width="90%" height="100" name="iLoader"></iframe>
+    </div>
+<!--
+=============================================
+         END OF iFRAME JSCALL
+=============================================
+ -->
+    <script type="text/javascript">
+       // var vQueryHash = readQueryParams();
+       var vOnlineMode = false;
+       var vApp = new App();
+       vApp.init(document,vDataJSON);
+       // checkOnlineMode();
+      </script>
+    </body>
+</html>
