@@ -69,6 +69,9 @@ function Extrapolator () {
 	this.aLoadedFile = "";
   //---PUBLIC: aEqui2Missing (Hash): Is the hash of values that are regards equivalent to missing of a JSON data loaded from the user interface
   this.aEqui2Missing = {"default":""};
+  this.aDifferent4Geo = 0;
+  this.aMappingFound = 0;
+  this.aImputationDone = 0;
 
 
   //---------------------------------------------------------------------
@@ -154,7 +157,7 @@ function Extrapolator () {
   //----PUBLIC Method: scan4Hash(pHashDB)-----
   //	scan4Hash will populates the this.aMap
 	this.scan4Hash = function (pHash) {
-      // check if aKey in defined in pHash
+	  // check if aKey in defined in pHash
       if (pHash.hasOwnProperty(this.aKey) && (!this.isMissing(pHash[this.aKey]))) {
         // check if aMissingID in defined in pHash
         if (pHash.hasOwnProperty(this.aMissingID) && (!this.isMissing(pHash[this.aMissingID]))) {
@@ -170,14 +173,16 @@ function Extrapolator () {
                 // it exists, now check if previous definition match with this new definition
                 if (this.aMap[vMapID] != pHash[this.aMissingID]) {
                   // mismath found throw Warning in Errors
-                  var vError = "WARNING "+(this.aErrors.length+1)+": for "+this.aKey+"['"+vMapID+"'] different "+this.aMissingID+" values (1) '"+this.aMap[vMapID]+"' (2) '"+pHash[this.aMissingID]+"'";
+                  var vError = "SCAN WARNING "+(this.aErrors.length+1)+": for "+this.aKey+"['"+vMapID+"'] different "+this.aMissingID+" values (1) '"+this.aMap[vMapID]+"' (2) '"+pHash[this.aMissingID]+"'";
                   console.log(vError);
+                  this.aDifferent4Geo++;
                   this.aErrors.push(vError);
                 };
               } else {
                 // no previous definition
+                this.aMappingFound++;
                 this.aMap[vMapID] = pHash[this.aMissingID];
-                console.log("Found Mapping '"+vMapID+"' to '"+pHash[this.aMissingID]+"'");
+                console.log("SCAN "+this.aMappingFound+": Found Mapping for '"+vMapID+"' to '"+pHash[this.aMissingID]+"'");
               };
             };
           }
@@ -202,15 +207,17 @@ function Extrapolator () {
               if (this.isMissing(pHash[this.aMissingID])) {
                 // the value is missing so perfrom extrapolation
                 pHash[this.aMissingID] = this.aMap[vMapID]
-                var vSuc = "DONE: add Missing Data of '"+this.aMissingID+"' for key['"+this.aKey+"']='"+vMapID+"' extrapolate '"+this.aMap[vMapID]+"'";
+        		this.aImputationDone++;
+  		        var vSuc = "IMPUTATION "+this.aImputationDone+": add Missing Data of '"+this.aMissingID+"' for key['"+this.aKey+"']='"+vMapID+"' extrapolate '"+this.aMap[vMapID]+"'";
 								this.aErrors.push(vSuc);
 								console.log(vSuc);
-              };
+			  };
             } else {
-              var vWarn = "WARNING: Extrapolation needed for Missing Data of '"+this.aMissingID+"' for key['"+this.aKey+"']='"+vMapID+"' but extrapolation failed!";
-							this.aErrors.push(vWarn);
-							console.log(vWarn);
-						}
+    		  this.aMissingGeo++;
+  	          var vWarn = "WARNING "+this.aMissingGeo+": Extrapolation needed for Missing Data of '"+this.aMissingID+"' for key['"+this.aKey+"']='"+vMapID+"' but extrapolation failed!";
+			   this.aErrors.push(vWarn);
+			   console.log(vWarn);
+			}
           }
         }
       };
@@ -258,8 +265,13 @@ Extrapolator.prototype.scan = function () {
   //    vMyInstance.scan();
   //-------------------------------------------------------
   this.call4Hash = this.scan4Hash;
+  this.aDifferent4Geo = 0;
   this.loopDB();
-  alert("Scan JSON for Extrapolation finished!\nTry to extrapolate missing data or Download Scan Errors and Warnings");
+  alert("Scan JSON for Extrapolation finished!\n"
+  		+this.aMappingFound+" geolocations mappings for an OviTrap found\n"
+  		+this.aDifferent4Geo+" geolocations for an OviTrap are not matching\n"
+  		+"Download Scan Errors and Warnings for details\n"
+  		+"NEXT STEP: Try to extrapolate missing data");
 };
 //----End of Method scan Definition
 
@@ -284,13 +296,15 @@ Extrapolator.prototype.extrapolate = function () {
   //    var vMyInstance = new Extrapolator();
   //    vMyInstance.extrapolate();
   //-------------------------------------------------------
-	alert("Start extrapolation - please wait ...");
   var vCount = 0;
   for (var iKey in this.aMap) {
     if (this.aMap.hasOwnProperty(iKey)) {
       vCount++
     }
   };
+  alert(vCount+" geolocated OviTraps found.\nPress Start extrapolation ...");
+  this.aImputationDone = 0;
+  this.aMissingGeo = 0;
   if (vCount>0) {
     this.call4Hash = this.extrapolate4Hash;
     this.loopDB();
