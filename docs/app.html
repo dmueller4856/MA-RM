@@ -210,13 +210,20 @@
        <div data-role="content">
           <h2>Load JSON</h2>
           <h3>Select new JSON File</h3>
-          <div data-role="fieldcontain">
-            <input type="file" name="fileJSON" value="Select JSON File" id="fileJSON" />
+          <div data-role="fieldcontain" style="display:none">
+            <input type="file" id="fileJSON" name="fileJSON" value="Select JSON File" id="fileJSON" onchange="$('#load_filename').html('<b>File:</b> '+ this.value.replace(/.*[\/\\]/, ''))"/>
           </div>
-          <table style="background:white" width="100%" cellpadding="10px">
-            <tr>
+          <button id="bSelectJSON" onclick="$( '#fileJSON' ).trigger('click');return false">
+           <i class="fa fa-external-link"></i> Select File
+          </button>
+		  <table style="background:white" width="100%" cellpadding="10px">
+            <tr id="load_info">
               <td>
                 Select a new JSON file from your device and press the <b>Import JSON</b>-Button.
+              </td>
+            </tr>
+            <tr id="tr_selected_load_file">
+              <td id="load_filename">
               </td>
             </tr>
           </table>
